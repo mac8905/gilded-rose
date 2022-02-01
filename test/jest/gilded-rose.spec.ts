@@ -1,7 +1,8 @@
 import { AgedBrie } from '@/aged-brie';
 import { BackstagePasses } from '@/backstage-passes';
-import { GildedRose, ItemType } from '@/gilded-rose';
-import { Item } from '@/item';
+import { ItemType } from '@/enums';
+import { GildedRose } from '@/gilded-rose';
+import { Sulfuras } from '@/sulfuras';
 
 describe('Gilded Rose', () => {
   describe('Aged Brie', () => {
@@ -81,8 +82,10 @@ describe('Gilded Rose', () => {
   });
 
   describe('Sulfuras', () => {
-    it('should never decrease quality of Sulfuras', () => {
-      const gildedRose = new GildedRose([new Item(ItemType.Sulfuras, 10, 10)]);
+    it('should never decrease or increase quality of Sulfuras', () => {
+      const gildedRose = new GildedRose([
+        new Sulfuras(ItemType.Sulfuras, 10, 10),
+      ]);
       const items = gildedRose.updateQuality();
       expect(items[0].quality).toBe(10);
       expect(items[0].sellIn).toBe(10);

@@ -1,4 +1,4 @@
-import { MAX_QUALITY, MIN_QUALITY } from './constants';
+import { MAX_QUALITY, MIN_QUALITY, ZERO_DAYS_FOR_SALE } from './constants';
 
 export class Item {
   name: string;
@@ -27,7 +27,14 @@ export class Item {
     this.quality = MIN_QUALITY;
   }
 
-  public updateQuality() {}
+  public updateQuality() {
+    this.decreaseQuality();
+    this.decreaseSellIn();
+
+    if (this.sellIn < ZERO_DAYS_FOR_SALE) {
+      this.decreaseQuality();
+    }
+  }
 
   public decreaseSellIn(): void {
     this.sellIn -= 1;
