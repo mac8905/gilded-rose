@@ -1,21 +1,29 @@
-import { Item, GildedRose, ItemType } from '@/gilded-rose';
+import { AgedBrie } from '@/aged-brie';
+import { GildedRose, ItemType } from '@/gilded-rose';
+import { Item } from '@/item';
 
 describe('Gilded Rose', () => {
   describe('Aged Brie', () => {
     it('should increase quality of Aged Brie', () => {
-      const gildedRose = new GildedRose([new Item(ItemType.AgedBrie, 10, 10)]);
+      const gildedRose = new GildedRose([
+        new AgedBrie(ItemType.AgedBrie, 10, 10),
+      ]);
       const items = gildedRose.updateQuality();
       expect(items[0].quality).toBe(11);
     });
 
     it('should increase quality of Aged Brie twice when sellIn is 0', () => {
-      const gildedRose = new GildedRose([new Item(ItemType.AgedBrie, 0, 10)]);
+      const gildedRose = new GildedRose([
+        new AgedBrie(ItemType.AgedBrie, 0, 10),
+      ]);
       const items = gildedRose.updateQuality();
       expect(items[0].quality).toBe(12);
     });
 
     it('should never increase quality of Aged Brie above 50', () => {
-      const gildedRose = new GildedRose([new Item(ItemType.AgedBrie, 10, 50)]);
+      const gildedRose = new GildedRose([
+        new AgedBrie(ItemType.AgedBrie, 10, 50),
+      ]);
       const items = gildedRose.updateQuality();
       expect(items[0].quality).toBe(50);
     });
