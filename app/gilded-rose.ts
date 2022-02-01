@@ -1,3 +1,4 @@
+import { ZERO_DAYS_FOR_SALE } from './constants';
 import { Item } from './item';
 
 export enum ItemType {
@@ -5,10 +6,6 @@ export enum ItemType {
   BackstagePasses = 'Backstage passes to a TAFKAL80ETC concert',
   Sulfuras = 'Sulfuras, Hand of Ragnaros',
 }
-
-export const TEN_DAYS_FOR_THE_CONCERT = 11;
-export const FIVE_DAYS_FOR_THE_CONCERT = 6;
-export const ZERO_DAYS_FOR_SALE = 0;
 
 export class GildedRose {
   items: Array<Item>;
@@ -19,27 +16,16 @@ export class GildedRose {
 
   updateQuality() {
     for (const item of this.items) {
-      if (item.name == ItemType.AgedBrie) {
+      if (
+        item.name == ItemType.AgedBrie ||
+        item.name == ItemType.BackstagePasses
+      ) {
         item.updateQuality();
         continue;
       }
 
-      if (item.name != ItemType.BackstagePasses) {
-        if (item.name != ItemType.Sulfuras) {
-          item.decreaseQuality();
-        }
-      } else {
-        item.increaseQuality();
-
-        if (item.name == ItemType.BackstagePasses) {
-          if (item.sellIn < TEN_DAYS_FOR_THE_CONCERT) {
-            item.increaseQuality();
-          }
-
-          if (item.sellIn < FIVE_DAYS_FOR_THE_CONCERT) {
-            item.increaseQuality();
-          }
-        }
+      if (item.name != ItemType.Sulfuras) {
+        item.decreaseQuality();
       }
 
       if (item.name != ItemType.Sulfuras) {
@@ -47,12 +33,8 @@ export class GildedRose {
       }
 
       if (item.sellIn < ZERO_DAYS_FOR_SALE) {
-        if (item.name != ItemType.BackstagePasses) {
-          if (item.name != ItemType.Sulfuras) {
-            item.decreaseQuality();
-          }
-        } else {
-          item.resetQuality();
+        if (item.name != ItemType.Sulfuras) {
+          item.decreaseQuality();
         }
       }
     }

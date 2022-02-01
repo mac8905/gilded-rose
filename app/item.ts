@@ -1,5 +1,4 @@
-export const MAX_QUALITY = 50;
-export const MIN_QUALITY = 0;
+import { MAX_QUALITY, MIN_QUALITY } from './constants';
 
 export class Item {
   name: string;
@@ -28,9 +27,9 @@ export class Item {
     this.quality = MIN_QUALITY;
   }
 
+  public updateQuality() {}
+
   public decreaseSellIn(): void {
     this.sellIn -= 1;
   }
-
-  public updateQuality() {}
 }

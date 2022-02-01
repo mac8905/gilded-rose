@@ -1,4 +1,5 @@
 import { AgedBrie } from '@/aged-brie';
+import { BackstagePasses } from '@/backstage-passes';
 import { GildedRose, ItemType } from '@/gilded-rose';
 import { Item } from '@/item';
 
@@ -32,7 +33,7 @@ describe('Gilded Rose', () => {
   describe('Backstage passes', () => {
     it('should increase quality of Backstage passes by 1 when there are more than 10 days', () => {
       const gildedRose = new GildedRose([
-        new Item(ItemType.BackstagePasses, 11, 10),
+        new BackstagePasses(ItemType.BackstagePasses, 11, 10),
       ]);
       const items = gildedRose.updateQuality();
       expect(items[0].quality).toBe(11);
@@ -40,7 +41,7 @@ describe('Gilded Rose', () => {
 
     it('should increase quality of Backstage passes by 2 when there are 10 days or less', () => {
       const gildedRose = new GildedRose([
-        new Item(ItemType.BackstagePasses, 10, 10),
+        new BackstagePasses(ItemType.BackstagePasses, 10, 10),
       ]);
       const items = gildedRose.updateQuality();
       expect(items[0].quality).toBe(12);
@@ -48,7 +49,7 @@ describe('Gilded Rose', () => {
 
     it('should increase quality of Backstage passes by 3 when there are 5 days or less', () => {
       const gildedRose = new GildedRose([
-        new Item(ItemType.BackstagePasses, 5, 10),
+        new BackstagePasses(ItemType.BackstagePasses, 5, 10),
       ]);
       const items = gildedRose.updateQuality();
       expect(items[0].quality).toBe(13);
@@ -56,7 +57,7 @@ describe('Gilded Rose', () => {
 
     it('should drops quality of Backstage passes to 0 when sellIn is 0', () => {
       const gildedRose = new GildedRose([
-        new Item(ItemType.BackstagePasses, 0, 10),
+        new BackstagePasses(ItemType.BackstagePasses, 0, 10),
       ]);
       const items = gildedRose.updateQuality();
       expect(items[0].quality).toBe(0);
@@ -64,7 +65,7 @@ describe('Gilded Rose', () => {
 
     it('should never increase quality of Backstage passes above 50', () => {
       const gildedRose = new GildedRose([
-        new Item(ItemType.BackstagePasses, 10, 50),
+        new BackstagePasses(ItemType.BackstagePasses, 10, 50),
       ]);
       const items = gildedRose.updateQuality();
       expect(items[0].quality).toBe(50);
@@ -72,7 +73,7 @@ describe('Gilded Rose', () => {
 
     it('should never decrease quality of Backstage passes below 0', () => {
       const gildedRose = new GildedRose([
-        new Item(ItemType.BackstagePasses, 0, 0),
+        new BackstagePasses(ItemType.BackstagePasses, 0, 0),
       ]);
       const items = gildedRose.updateQuality();
       expect(items[0].quality).toBe(0);

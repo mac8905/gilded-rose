@@ -1,6 +1,5 @@
+import { ZERO_DAYS_FOR_SALE } from './constants';
 import { Item } from './item';
-
-export const ZERO_DAYS_FOR_SALE = 0;
 
 export class AgedBrie extends Item {
   constructor(name: string, sellIn: number, quality: number) {
