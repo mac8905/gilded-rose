@@ -10,17 +10,17 @@ export class Item {
   }
 }
 
-enum ItemType {
+export enum ItemType {
   AgedBrie = 'Aged Brie',
   BackstagePasses = 'Backstage passes to a TAFKAL80ETC concert',
   Sulfuras = 'Sulfuras, Hand of Ragnaros',
 }
 
-const TEN_DAYS_FOR_THE_CONCERT = 11;
-const FIVE_DAYS_FOR_THE_CONCERT = 6;
-const ZERO_DAYS_FOR_SALE = 0;
-const MAX_QUALITY = 50;
-const MIN_QUALITY = 0;
+export const TEN_DAYS_FOR_THE_CONCERT = 11;
+export const FIVE_DAYS_FOR_THE_CONCERT = 6;
+export const ZERO_DAYS_FOR_SALE = 0;
+export const MAX_QUALITY = 50;
+export const MIN_QUALITY = 0;
 
 export class GildedRose {
   items: Array<Item>;
@@ -30,53 +30,52 @@ export class GildedRose {
   }
 
   updateQuality() {
-    for (let i = 0; i < this.items.length; i++) {
+    for (const item of this.items) {
       if (
-        this.items[i].name != ItemType.AgedBrie &&
-        this.items[i].name != ItemType.BackstagePasses
+        item.name != ItemType.AgedBrie &&
+        item.name != ItemType.BackstagePasses
       ) {
-        if (this.items[i].quality > MIN_QUALITY) {
-          if (this.items[i].name != ItemType.Sulfuras) {
-            this.items[i].quality = this.items[i].quality - 1;
+        if (item.quality > MIN_QUALITY) {
+          if (item.name != ItemType.Sulfuras) {
+            item.quality = item.quality - 1;
           }
         }
       } else {
-        if (this.items[i].quality < MAX_QUALITY) {
-          this.items[i].quality = this.items[i].quality + 1;
-          if (this.items[i].name == ItemType.BackstagePasses) {
-            if (this.items[i].sellIn < TEN_DAYS_FOR_THE_CONCERT) {
-              if (this.items[i].quality < MAX_QUALITY) {
-                this.items[i].quality = this.items[i].quality + 1;
+        if (item.quality < MAX_QUALITY) {
+          item.quality = item.quality + 1;
+          if (item.name == ItemType.BackstagePasses) {
+            if (item.sellIn < TEN_DAYS_FOR_THE_CONCERT) {
+              if (item.quality < MAX_QUALITY) {
+                item.quality = item.quality + 1;
               }
             }
-            if (this.items[i].sellIn < FIVE_DAYS_FOR_THE_CONCERT) {
-              if (this.items[i].quality < MAX_QUALITY) {
-                this.items[i].quality = this.items[i].quality + 1;
+            if (item.sellIn < FIVE_DAYS_FOR_THE_CONCERT) {
+              if (item.quality < MAX_QUALITY) {
+                item.quality = item.quality + 1;
               }
             }
           }
         }
       }
 
-      if (this.items[i].name != ItemType.Sulfuras) {
-        this.items[i].sellIn = this.items[i].sellIn - 1;
+      if (item.name != ItemType.Sulfuras) {
+        item.sellIn = item.sellIn - 1;
       }
 
-      if (this.items[i].sellIn < ZERO_DAYS_FOR_SALE) {
-        if (this.items[i].name != ItemType.AgedBrie) {
-          if (this.items[i].name != ItemType.BackstagePasses) {
-            if (this.items[i].quality > MIN_QUALITY) {
-              if (this.items[i].name != ItemType.Sulfuras) {
-                this.items[i].quality = this.items[i].quality - 1;
+      if (item.sellIn < ZERO_DAYS_FOR_SALE) {
+        if (item.name != ItemType.AgedBrie) {
+          if (item.name != ItemType.BackstagePasses) {
+            if (item.quality > MIN_QUALITY) {
+              if (item.name != ItemType.Sulfuras) {
+                item.quality = item.quality - 1;
               }
             }
           } else {
-            this.items[i].quality =
-              this.items[i].quality - this.items[i].quality;
+            item.quality = item.quality - item.quality;
           }
         } else {
-          if (this.items[i].quality < MAX_QUALITY) {
-            this.items[i].quality = this.items[i].quality + 1;
+          if (item.quality < MAX_QUALITY) {
+            item.quality = item.quality + 1;
           }
         }
       }
