@@ -1,5 +1,6 @@
 import { AgedBrie } from '@/aged-brie';
 import { BackstagePasses } from '@/backstage-passes';
+import { Conjured } from '@/conjured';
 import { ItemType } from '@/enums';
 import { GildedRose } from '@/gilded-rose';
 import { Sulfuras } from '@/sulfuras';
@@ -89,6 +90,24 @@ describe('Gilded Rose', () => {
       const items = gildedRose.updateQuality();
       expect(items[0].quality).toBe(10);
       expect(items[0].sellIn).toBe(10);
+    });
+  });
+
+  describe('Conjured', () => {
+    it('should decrease quality of Conjured twice as fast as normal items', () => {
+      const gildedRose = new GildedRose([
+        new Conjured(ItemType.Conjured, 10, 10),
+      ]);
+      const items = gildedRose.updateQuality();
+      expect(items[0].quality).toBe(8);
+    });
+
+    it('should never decrease quality of Conjured below 0', () => {
+      const gildedRose = new GildedRose([
+        new Conjured(ItemType.Conjured, 10, 0),
+      ]);
+      const items = gildedRose.updateQuality();
+      expect(items[0].quality).toBe(0);
     });
   });
 });
