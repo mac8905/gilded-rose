@@ -1,14 +1,14 @@
-export class Item {
-  name: string;
-  sellIn: number;
-  quality: number;
+import { Item } from './item';
 
-  constructor(name, sellIn, quality) {
-    this.name = name;
-    this.sellIn = sellIn;
-    this.quality = quality;
-  }
+export enum ItemType {
+  AgedBrie = 'Aged Brie',
+  BackstagePasses = 'Backstage passes to a TAFKAL80ETC concert',
+  Sulfuras = 'Sulfuras, Hand of Ragnaros',
 }
+
+export const TEN_DAYS_FOR_THE_CONCERT = 11;
+export const FIVE_DAYS_FOR_THE_CONCERT = 6;
+export const ZERO_DAYS_FOR_SALE = 0;
 
 export class GildedRose {
   items: Array<Item>;
@@ -18,48 +18,41 @@ export class GildedRose {
   }
 
   updateQuality() {
-    for (let i = 0; i < this.items.length; i++) {
-      if (this.items[i].name != 'Aged Brie' && this.items[i].name != 'Backstage passes to a TAFKAL80ETC concert') {
-        if (this.items[i].quality > 0) {
-          if (this.items[i].name != 'Sulfuras, Hand of Ragnaros') {
-            this.items[i].quality = this.items[i].quality - 1
-          }
+    for (const item of this.items) {
+      if (item.name == ItemType.AgedBrie) {
+        item.updateQuality();
+        continue;
+      }
+
+      if (item.name != ItemType.BackstagePasses) {
+        if (item.name != ItemType.Sulfuras) {
+          item.decreaseQuality();
         }
       } else {
-        if (this.items[i].quality < 50) {
-          this.items[i].quality = this.items[i].quality + 1
-          if (this.items[i].name == 'Backstage passes to a TAFKAL80ETC concert') {
-            if (this.items[i].sellIn < 11) {
-              if (this.items[i].quality < 50) {
-                this.items[i].quality = this.items[i].quality + 1
-              }
-            }
-            if (this.items[i].sellIn < 6) {
-              if (this.items[i].quality < 50) {
-                this.items[i].quality = this.items[i].quality + 1
-              }
-            }
+        item.increaseQuality();
+
+        if (item.name == ItemType.BackstagePasses) {
+          if (item.sellIn < TEN_DAYS_FOR_THE_CONCERT) {
+            item.increaseQuality();
+          }
+
+          if (item.sellIn < FIVE_DAYS_FOR_THE_CONCERT) {
+            item.increaseQuality();
           }
         }
       }
-      if (this.items[i].name != 'Sulfuras, Hand of Ragnaros') {
-        this.items[i].sellIn = this.items[i].sellIn - 1;
+
+      if (item.name != ItemType.Sulfuras) {
+        item.decreaseSellIn();
       }
-      if (this.items[i].sellIn < 0) {
-        if (this.items[i].name != 'Aged Brie') {
-          if (this.items[i].name != 'Backstage passes to a TAFKAL80ETC concert') {
-            if (this.items[i].quality > 0) {
-              if (this.items[i].name != 'Sulfuras, Hand of Ragnaros') {
-                this.items[i].quality = this.items[i].quality - 1
-              }
-            }
-          } else {
-            this.items[i].quality = this.items[i].quality - this.items[i].quality
+
+      if (item.sellIn < ZERO_DAYS_FOR_SALE) {
+        if (item.name != ItemType.BackstagePasses) {
+          if (item.name != ItemType.Sulfuras) {
+            item.decreaseQuality();
           }
         } else {
-          if (this.items[i].quality < 50) {
-            this.items[i].quality = this.items[i].quality + 1
-          }
+          item.resetQuality();
         }
       }
     }
